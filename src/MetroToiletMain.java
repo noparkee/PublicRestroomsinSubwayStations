@@ -112,10 +112,10 @@ class UI extends JFrame{
 				JButton b = (JButton)e.getSource();
 				if(b.getText().equals("입력")) {
 					
-					selectedDirection = linenum.getSelectedIndex();
+					selectedLine = linenum.getSelectedIndex();
 					
 					//JComboBox sll = (JComboBox)e.getSource();
-					selectedLine = mtdirection.getSelectedIndex();
+					selectedDirection = mtdirection.getSelectedIndex();
 					
 					enteredStation = tf.getText();
 					
