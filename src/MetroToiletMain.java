@@ -44,35 +44,61 @@ class UI extends JFrame{
 	public UI() {
 		
 		String metroLine[] = {"3호선","6호선"};
+		String metroDirection[] = {"상행선", "하행선", "내선순환", "외선순환"};
 		String metro3[] = StoreStation.makeArrayMetro3();
 		String metro6[] = StoreStation.makeArrayMetro6();
 		
 		Container contentPane = getContentPane();
 		contentPane.setLayout(null);
 		
+		contentPane.setBackground(Color.ORANGE);
 				
 		JComboBox<String> linenum = new JComboBox<String>(metroLine); //호선 선택
 		linenum.setBounds(50, 50, 70, 30);
-		linenum.setOpaque(true);
+		//linenum.setOpaque(true);
 		contentPane.add(linenum);
 	
 		JLabel stname = new JLabel();
 		stname.setText("역:");
-		stname.setBounds(150, 50, 30, 30);
+		stname.setBounds(170, 50, 30, 30);
 		contentPane.add(stname);
 		
 		JTextField tf = new JTextField(10); //역 이름 입력
-		tf.setBounds(180, 50, 250, 30);
+		tf.setBounds(200, 50, 120, 30);
 		contentPane.add(tf);
-		String station = tf.getText();
+				
+		tf.addKeyListener(new KeyListener() {
+			String enteredStation;
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+					enteredStation = tf.getText();
+				}
+			}	//역 이름 입력하고 엔터하면 enteredStation에 역 이름 저장
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
-		//panel.add(tf);
 		
+		JComboBox<String> mtdirection = new JComboBox<String>(metroDirection);
+		mtdirection.setBounds(370, 50, 70, 30);
+		contentPane.add(mtdirection);
+		
+		
+
 		setTitle("Toilet in Station");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setSize(500, 300);
-		
 		setVisible(true);
 		
 	}
