@@ -42,13 +42,13 @@ class StoreStation {
 class UI extends JFrame{
 	static int toiletinst3[] = {5, 11, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 27, 28, 31, 32, 35, 37, 40, 41, 42}; 
 	static int toiletinst6[] = {9, 10, 22, 28, 29, 30, 31, 35};
-	
+
 	String enteredStation;
 	int selectedLine;
 	int selectedDirection;
-	
+
 	public UI() {
-		
+
 		String metroLine[] = {"호선","3호선","6호선"};
 		String metroDirection[] = {"방향","상행선", "하행선", "내선순환", "외선순환"};
 		String metro3[] = StoreStation.makeArrayMetro3();
@@ -81,8 +81,6 @@ class UI extends JFrame{
 		okay.setBounds(210, 100, 70, 30);
 		contentPane.add(okay);
 
-		JLabel result = new JLabel();
-		
 		/*tf.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
@@ -100,7 +98,7 @@ class UI extends JFrame{
 				selectedDirection = mtdirection.getSelectedIndex();
 			}
 		});
-		
+
 		linenum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				selectedLine = linenum.getSelectedIndex();
@@ -111,59 +109,51 @@ class UI extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				JButton b = (JButton)e.getSource();
 				if(b.getText().equals("입력")) {
-					
+
 					selectedLine = linenum.getSelectedIndex();
-					
-					//JComboBox sll = (JComboBox)e.getSource();
 					selectedDirection = mtdirection.getSelectedIndex();
-					
 					enteredStation = tf.getText();
-					
-					
+
+
 					if(selectedLine == 1) {
+						JLabel result = new JLabel();
 						int num = Search.searchClosest(enteredStation, selectedDirection, metro3, toiletinst3);
 						result.setText(metro3[num]);
+						result.setBackground(Color.RED);
 						result.setBounds(200, 180, 100, 30);
 						contentPane.add(result);
 						System.out.println(result);
 					}
-					
+
 					else if(selectedLine == 2) {
+						JLabel result = new JLabel();
 						int num2 = Search.searchClosest(enteredStation, selectedDirection, metro6, toiletinst6);
 						result.setText(metro6[num2]);
 						result.setBounds(200, 170, 100, 30);
 						contentPane.add(result);
 						System.out.println(result);
 					}
-					
+
 				}
 
 			}
-	});		
-
-		/*if(selectedLine == 1) {
-			JLabel result = new JLabel();
-			result.setText(Search.searchClosest(enteredStation, selectedDirection, metro3, toiletinst3));
-			result.setBounds(100, 100, 70, 30);
-			contentPane.add(result);
-		}*/
-
+		});		
 		setTitle("Toilet in Station");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		setSize(500, 300);
 		setVisible(true);	
 
-}
+	}
 }
 
 class Search{
 	//n을 for문 밖으로 꺼냈을 떄도 i와 값이 같아야하는데 이를 고쳐야하뮤ㅠ
-	
+
 	static int searchClosest(String station, int selectedDirection, String [] metro, int [] toiletinst) {
 		int n=0;
 		int min = 100;
-		
+
 		if(selectedDirection == 1 || selectedDirection == 3) {
 			for(int i =0; i<metro.length; i++) {
 				if(metro[i].equals(station)) {
@@ -192,14 +182,14 @@ class Search{
 							min = 0;
 					}
 					//return metro[n+min];
-				//	System.out.println(metro[n+min]);
+					//	System.out.println(metro[n+min]);
 				}
 
 			}
-		return n+min;
+			return n+min;
 		}
 		else 
-		return 0;
+			return 1220;
 	}
 }
 
