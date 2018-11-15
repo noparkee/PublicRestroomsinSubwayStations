@@ -4,6 +4,23 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+class Examine{
+	//String metro3[] = StoreStation.makeArrayMetro3();
+	//String metro6[] = StoreStation.makeArrayMetro6();
+	
+	public static int rightLS(String [] metro, String eneterdStation) {
+		int cnt = 0;
+		for(int i =0 ; i<metro.length; i++) {
+			// 호선과 역이 맞게 입력되었는지.
+			if(metro[i].equals(eneterdStation))
+				cnt ++;
+		}
+		if(cnt !=0)
+			return 1; //맞게 입력
+		else
+			return 0; //잘 못 입력
+	}
+}
 class StoreStation {
 	static String[] makeArrayMetro3() {
 		String metro3[] = new String[43];
@@ -50,7 +67,7 @@ class UI extends JFrame{
 	public UI() {
 
 		String metroLine[] = {"호선","3호선","6호선"};
-		String metroDirection[] = {"방향","상행선", "하행선", "내선순환", "외선순환"};
+		String metroDirection[] = {"방향","상행선 (내선순환)", "하행선 (외선순환)"};
 		String metro3[] = StoreStation.makeArrayMetro3();
 		String metro6[] = StoreStation.makeArrayMetro6();
 
@@ -65,15 +82,15 @@ class UI extends JFrame{
 
 		JLabel stname = new JLabel();
 		stname.setText("역:");
-		stname.setBounds(170, 50, 30, 30);
+		stname.setBounds(150, 50, 30, 30);
 		contentPane.add(stname);
 
 		JTextField tf = new JTextField(10); //역 이름 입력
-		tf.setBounds(200, 50, 120, 30);
+		tf.setBounds(180, 50, 120, 30);
 		contentPane.add(tf);
 
 		JComboBox<String> mtdirection = new JComboBox<String>(metroDirection);
-		mtdirection.setBounds(370, 50, 70, 30);
+		mtdirection.setBounds(330, 50, 110, 30);
 		contentPane.add(mtdirection);
 
 		JButton okay= new JButton();
@@ -104,6 +121,10 @@ class UI extends JFrame{
 				selectedLine = linenum.getSelectedIndex();
 			}
 		});*/
+		JLabel result = new JLabel();
+		result.setText("정보를 입력해주세요.");
+		result.setBounds(175, 170, 150, 30);
+		contentPane.add(result);
 
 		okay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -114,30 +135,59 @@ class UI extends JFrame{
 					selectedDirection = mtdirection.getSelectedIndex();
 					enteredStation = tf.getText();
 
-
 					if(selectedLine == 1) {
-						JLabel result = new JLabel();
+
 						int num = Search.searchClosest(enteredStation, selectedDirection, metro3, toiletinst3);
-						result.setText(metro3[num]);
-						result.setBackground(Color.RED);
-						result.setBounds(200, 180, 100, 30);
-						contentPane.add(result);
-						System.out.println(result);
+						if(num!=1220) {
+							if(Examine.rightLS(metro3, enteredStation)==1) {
+							result.setText(metro3[num]);
+							result.setBounds(215, 170, 70, 30);
+							contentPane.add(result);
+							//System.out.println(result);
+							}
+							else {
+								result.setText("입력을 확인해주세요.");
+								result.setBounds(175, 170, 150, 30);
+								contentPane.add(result);
+							}
+						}
+						else {
+							result.setText("입력을 확인해주세요.");
+							result.setBounds(175, 170, 150, 30);
+							contentPane.add(result);
+						}
 					}
-
 					else if(selectedLine == 2) {
-						JLabel result = new JLabel();
-						int num2 = Search.searchClosest(enteredStation, selectedDirection, metro6, toiletinst6);
-						result.setText(metro6[num2]);
-						result.setBounds(200, 170, 100, 30);
-						contentPane.add(result);
-						System.out.println(result);
-					}
 
+						int num = Search.searchClosest(enteredStation, selectedDirection, metro6, toiletinst6);
+						if(num!=1220) {
+							if(Examine.rightLS(metro3, enteredStation)==1) {
+							result.setText(metro6[num]);
+							result.setBounds(200, 170, 100, 30);
+							contentPane.add(result);
+							//System.out.println(result);
+							}
+							else {
+								result.setText("입력을 확인해주세요.");
+								result.setBounds(175, 170, 150, 30);
+								contentPane.add(result);
+							}
+						}
+						else {
+							result.setText("입력을 확인해주세요.");
+							result.setBounds(175, 170, 150, 30);
+							contentPane.add(result);
+						}
+					}
+					else
+						result.setText("입력을 확인해주세요.");
+					contentPane.add(result);
 				}
 
 			}
 		});		
+
+
 		setTitle("Toilet in Station");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -148,13 +198,11 @@ class UI extends JFrame{
 }
 
 class Search{
-	//n을 for문 밖으로 꺼냈을 떄도 i와 값이 같아야하는데 이를 고쳐야하뮤ㅠ
-
 	static int searchClosest(String station, int selectedDirection, String [] metro, int [] toiletinst) {
 		int n=0;
 		int min = 100;
 
-		if(selectedDirection == 1 || selectedDirection == 3) {
+		if(selectedDirection == 1) {
 			for(int i =0; i<metro.length; i++) {
 				if(metro[i].equals(station)) {
 					n = i;
@@ -171,7 +219,7 @@ class Search{
 			return n-min;
 		}
 
-		else if(selectedDirection == 2 || selectedDirection == 4) {
+		else if(selectedDirection == 2) {
 			for(int i =0; i<metro.length; i++) {
 				if(metro[i].equals(station)) {
 					n = i;
