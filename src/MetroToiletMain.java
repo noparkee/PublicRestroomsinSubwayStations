@@ -5,9 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 class Examine{
-	//String metro3[] = StoreStation.makeArrayMetro3();
-	//String metro6[] = StoreStation.makeArrayMetro6();
-	
 	public static int rightLS(String [] metro, String eneterdStation) {
 		int cnt = 0;
 		for(int i =0 ; i<metro.length; i++) {
@@ -98,29 +95,6 @@ class UI extends JFrame{
 		okay.setBounds(210, 100, 70, 30);
 		contentPane.add(okay);
 
-		/*tf.addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
-					enteredStation = tf.getText();
-				}
-			}	//역 이름 입력하고 엔터하면 enteredStation에 역 이름 저장
-			@Override
-			public void keyReleased(KeyEvent arg0) {}
-			@Override
-			public void keyTyped(KeyEvent arg0) {}
-		});
-
-		mtdirection.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				selectedDirection = mtdirection.getSelectedIndex();
-			}
-		});
-
-		linenum.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				selectedLine = linenum.getSelectedIndex();
-			}
-		});*/
 		JLabel result = new JLabel();
 		result.setText("정보를 입력해주세요.");
 		result.setBounds(175, 170, 150, 30);
@@ -165,7 +139,6 @@ class UI extends JFrame{
 							result.setText(metro6[num]);
 							result.setBounds(200, 170, 100, 30);
 							contentPane.add(result);
-							//System.out.println(result);
 							}
 							else {
 								result.setText("입력을 확인해주세요.");
@@ -212,7 +185,6 @@ class Search{
 						else if(toiletinst[j] - n == 0)
 							min = 0;
 					}
-					//System.out.println(metro[n-min]);
 				}
 
 			}
@@ -229,9 +201,7 @@ class Search{
 						else if(toiletinst[j] - n == 0)
 							min = 0;
 					}
-					//return metro[n+min];
-					//	System.out.println(metro[n+min]);
-				}
+					}
 
 			}
 			return n+min;
@@ -252,49 +222,5 @@ public class MetroToiletMain{
 		new UI();
 		String metro3[] = StoreStation.makeArrayMetro3();
 		String metro6[] = StoreStation.makeArrayMetro6();
-
-		/*static String metro3[] = new String[43];
-		static String metro6[] = new String[39];
-
-		File fileL3 = new File("metro3.txt");
-		try {
-			Scanner mt3 = new Scanner(fileL3);
-			while(mt3.hasNext()) {
-				for(int i =0; i<metro3.length; i++)
-					metro3[i] = mt3.nextLine();
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("파일을 가져오던 중 오류가 발생했습니다.");
-			System.exit(0);
-		}
-
-		File fileL6 = new File("metro6.txt");
-		try {
-			Scanner mt6 = new Scanner(fileL6);
-			while(mt6.hasNext()) {
-				for(int i =0; i<metro6.length; i++)
-					metro6[i] = mt6.nextLine();
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("파일을 가져오던 중 오류가 발생했습니다.");
-			System.exit(0);
-		}*/
-		//-----------------↑3호선, 6호선 배열 정리↑---------------------------------
-
-		/*Scanner a = new Scanner(System.in);
-		System.out.print("현재 탑승한 지하철 호선: ");
-		int metroline = a.nextInt();
-		System.out.print("현재 위치한 역: ");
-		String station = a.next();
-		System.out.print("상행선(내선) or 하행선(외선): ");
-		String direction = a.next();
-		 */
-
-		/*if(metroline == 3)
-			Search.searchClosest(metroline, station, direction, metro3, toiletinst3);*/
-
-
-
 	}
-
 }
