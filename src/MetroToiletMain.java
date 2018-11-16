@@ -88,20 +88,33 @@ class UI extends JFrame{
 				//Object obj = e.getItem();
 				switch (num) {
 				case 1: 
-					if(stationSE.get(1).isEmpty()) {
-						stationSE.removeAllElements();
-						stationSE.add("방향");
-					}
-					
+					if(stationSE.size()==1) {
 					stationSE.add(1, metro3[0] + "행");
 					stationSE.add(2, metro3[metro3.length-1] + "행");
+					}
+					else {
+						stationSE.removeAllElements();
+						stationSE.add(0, "방향");
+						stationSE.add(1, metro3[0] + "행");
+						stationSE.add(2, metro3[metro3.length-1] + "행");
+					}
 					// System.out.println(stationSE.get(2));
 					break;
 				case 2:
+					if(stationSE.size()==1) {
 					stationSE.add(1, metro6[0] + "행");
 					stationSE.add(2, metro6[metro6.length-1] + "행");
+					}
+					else {
+						stationSE.removeAllElements();
+						stationSE.add(0,  "방향");
+						stationSE.add(1, metro6[0] + "행");
+						stationSE.add(2, metro6[metro6.length-1] + "행");
+					}
 					break;
 				default:
+					stationSE.removeAllElements();
+					stationSE.add(0,  "방향");
 					break;
 				}
 			}
