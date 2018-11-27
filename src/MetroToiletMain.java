@@ -67,7 +67,6 @@ class UI extends JFrame{
 		Vector<String> stationSE = new Vector<String>();
 		stationSE.add("방향");
 
-		//String metroDirection[] = {"방향","상행선 (내선순환)", "하행선 (외선순환)"};
 		String metro3[] = StoreStation.makeArrayMetro3();
 		String metro6[] = StoreStation.makeArrayMetro6();
 
@@ -80,8 +79,7 @@ class UI extends JFrame{
 		linenum.setBounds(50, 50, 70, 30);
 		contentPane.add(linenum);
 
-		//linenum.addItemListener(new MyItemListener());
-		linenum.addActionListener(new ActionListener() {	//처음에 선택할때는 옳게 뜨는데 두 번 이상 호선을 바꾸면 선택하면 다르게 뜸. ***여기 수정
+		linenum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JComboBox<String> sl = (JComboBox<String>)e.getSource();
 				int num = sl.getSelectedIndex();
@@ -89,8 +87,8 @@ class UI extends JFrame{
 				switch (num) {
 				case 1: 
 					if(stationSE.size()==1) {
-					stationSE.add(1, metro3[0] + "행");
-					stationSE.add(2, metro3[metro3.length-1] + "행");
+						stationSE.add(1, metro3[0] + "행");
+						stationSE.add(2, metro3[metro3.length-1] + "행");
 					}
 					else {
 						stationSE.removeAllElements();
@@ -102,8 +100,8 @@ class UI extends JFrame{
 					break;
 				case 2:
 					if(stationSE.size()==1) {
-					stationSE.add(1, metro6[0] + "행");
-					stationSE.add(2, metro6[metro6.length-1] + "행");
+						stationSE.add(1, metro6[0] + "행");
+						stationSE.add(2, metro6[metro6.length-1] + "행");
 					}
 					else {
 						stationSE.removeAllElements();
@@ -164,6 +162,11 @@ class UI extends JFrame{
 								contentPane.add(result);
 								//System.out.println(result);
 							}
+							/*else if(num < 0 ) {
+								result.setText("집으로 Run...");
+								result.setBounds(175, 170, 150, 30);
+								contentPane.add(result);
+							}*/
 							else {
 								result.setText("입력을 확인해주세요.");
 								result.setBounds(175, 170, 150, 30);
@@ -191,6 +194,11 @@ class UI extends JFrame{
 								contentPane.add(result);
 							}
 						}
+						/*else if(num >= 100) {
+							result.setText("집으로 Run...");
+							result.setBounds(175, 170, 150, 30);
+							contentPane.add(result);
+						}*/
 						else {
 							result.setText("입력을 확인해주세요.");
 							result.setBounds(175, 170, 150, 30);
@@ -214,12 +222,13 @@ class UI extends JFrame{
 	}
 }
 
-class Search{
+class Search{	//*************방향에 화장실이 없을 경우도 고려해서 만들어야함!**************
 	static int searchClosest(String station, int selectedDirection, String [] metro, int [] toiletinst) {
 		int n=0;
 		int min = 100;
+		int cnt = 0;
 
-		if(selectedDirection == 1) {
+		if(selectedDirection == 1) {	//상행선
 			for(int i =0; i<metro.length; i++) {
 				if(metro[i].equals(station)) {
 					n = i;
@@ -228,14 +237,14 @@ class Search{
 							min = n - toiletinst[j];
 						else if(toiletinst[j] - n == 0)
 							min = 0;
+						//else if (tolietinst[j] - n)
 					}
 				}
-
 			}
 			return n-min;
 		}
 
-		else if(selectedDirection == 2) {
+		else if(selectedDirection == 2) {	//하행선
 			for(int i =0; i<metro.length; i++) {
 				if(metro[i].equals(station)) {
 					n = i;
@@ -246,15 +255,14 @@ class Search{
 							min = 0;
 					}
 				}
-
 			}
 			return n+min;
 		}
+		
 		else 
 			return 1220;
 	}
 }
-
 
 public class MetroToiletMain{
 
