@@ -96,7 +96,6 @@ class UI extends JFrame{
 						stationSE.add(1, metro3[0] + "행");
 						stationSE.add(2, metro3[metro3.length-1] + "행");
 					}
-					// System.out.println(stationSE.get(2));
 					break;
 				case 2:
 					if(stationSE.size()==1) {
@@ -141,7 +140,7 @@ class UI extends JFrame{
 
 		JLabel result = new JLabel();
 		result.setText("정보를 입력해주세요.");
-		result.setBounds(175, 170, 150, 30);
+		result.setBounds(175, 170, 170, 30);
 		contentPane.add(result);
 
 		okay.addActionListener(new ActionListener() {
@@ -153,22 +152,25 @@ class UI extends JFrame{
 					selectedDirection = mtdirection.getSelectedIndex();
 					enteredStation = tf.getText();
 
-					if(selectedLine == 1) {
+					if(selectedLine == 1) {	//3호선
 						int num = Search.searchClosest(enteredStation, selectedDirection, metro3, toiletinst3);
-						if(num!=1220) {
-							if(Examine.rightLS(metro3, enteredStation)==1) {
-								result.setText(metro3[num]);
-								result.setBounds(215, 170, 70, 30);
-								contentPane.add(result);
-								//System.out.println(result);
+						int cor = Input.correctInput(enteredStation, selectedDirection, metro3, toiletinst3);
+						if(cor==1) {
+							if(num!=1220 && num<100 && num >=0) {
+								if(Examine.rightLS(metro3, enteredStation)==1) {
+									result.setText(metro3[num]);
+									result.setBounds(215, 170, 150, 30);
+									contentPane.add(result);
+									//System.out.println(result);
+								}
 							}
-							/*else if(num < 0 ) {
+							else if(num < 0 && num >= -100) {
 								result.setText("집으로 Run...");
 								result.setBounds(175, 170, 150, 30);
 								contentPane.add(result);
-							}*/
-							else {
-								result.setText("입력을 확인해주세요.");
+							}
+							else if(num >= 100 && num < 200) {
+								result.setText("집으로 Run...");
 								result.setBounds(175, 170, 150, 30);
 								contentPane.add(result);
 							}
@@ -179,39 +181,40 @@ class UI extends JFrame{
 							contentPane.add(result);
 						}
 					}
-					else if(selectedLine == 2) {
-
-						int num = Search.searchClosest(enteredStation, selectedDirection, metro6, toiletinst6);
-						if(num!=1220) {
+				
+				else if(selectedLine == 2) {	//6호선 
+					int num = Search.searchClosest(enteredStation, selectedDirection, metro6, toiletinst6);
+					int cor = Input.correctInput(enteredStation, selectedDirection, metro6, toiletinst6);
+					if(cor==1) {
+						if(num!=1220 && num<100 && num>=0) {
 							if(Examine.rightLS(metro6, enteredStation)==1) {
 								result.setText(metro6[num]);
-								result.setBounds(200, 170, 100, 30);
-								contentPane.add(result);
-							}
-							else {
-								result.setText("입력을 확인해주세요.");
 								result.setBounds(175, 170, 150, 30);
 								contentPane.add(result);
 							}
 						}
-						/*else if(num >= 100) {
+						else if(num < 0 && num >= -100) {
 							result.setText("집으로 Run...");
 							result.setBounds(175, 170, 150, 30);
 							contentPane.add(result);
-						}*/
-						else {
-							result.setText("입력을 확인해주세요.");
+						}
+						else if(num >= 100 && num < 200) {
+							result.setText("집으로 Run...");
 							result.setBounds(175, 170, 150, 30);
 							contentPane.add(result);
 						}
 					}
-					else
+					else {
 						result.setText("입력을 확인해주세요.");
-					contentPane.add(result);
+						result.setBounds(175, 170, 150, 30);
+						contentPane.add(result);
+
+					}
+				}
 				}
 
-			}
-		});		
+		}
+	});		
 
 		setTitle("Toilet in Station");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -219,8 +222,23 @@ class UI extends JFrame{
 		setSize(500, 300);
 		setVisible(true);	
 
+}
+}
+class Input{	
+	static int correctInput(String station, int selectedDirection, String [] metro, int [] toiletinst) {
+		int cnt = 0;
+
+		for(int i = 0; i<metro.length; i++) {
+			if(station.equals(metro[i]))
+				cnt++;
+		}
+		if(cnt == 1)
+			return 1;
+		else
+			return 0;
 	}
 }
+
 
 class Search{	//*************방향에 화장실이 없을 경우도 고려해서 만들어야함!**************
 	static int searchClosest(String station, int selectedDirection, String [] metro, int [] toiletinst) {
@@ -237,7 +255,12 @@ class Search{	//*************방향에 화장실이 없을 경우도 고려해�
 							min = n - toiletinst[j];
 						else if(toiletinst[j] - n == 0)
 							min = 0;
-						//else if (tolietinst[j] - n)
+						else if (toiletinst[j] > n) {
+							cnt++;
+							if(cnt==toiletinst.length) {
+								min=100;
+							}
+						}
 					}
 				}
 			}
@@ -253,12 +276,18 @@ class Search{	//*************방향에 화장실이 없을 경우도 고려해�
 							min = toiletinst[j] - n;
 						else if(toiletinst[j] - n == 0)
 							min = 0;
+						else if (toiletinst[j] < n) {
+							cnt++;
+							if(cnt==toiletinst.length) {
+								min=100;
+							}
+						}
 					}
 				}
 			}
 			return n+min;
 		}
-		
+
 		else 
 			return 1220;
 	}
