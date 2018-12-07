@@ -61,21 +61,28 @@ class UI extends JFrame{
 	int selectedLine;
 	int selectedDirection;
 
+	String metroLine[] = {"호선","3호선","6호선"};
+	Vector<String> stationSE = new Vector<String>();
+
+	Container contentPane = getContentPane();
+	JComboBox<String> linenum = new JComboBox<String>(metroLine);
+	JLabel stname = new JLabel();
+	JTextField tf = new JTextField(10); //역 이름 입력
+	JComboBox<String> mtdirection = new JComboBox<String>(stationSE);
+	JButton okay= new JButton();
+	JLabel result = new JLabel();
+
+	String metro3[] = StoreStation.makeArrayMetro3();
+	String metro6[] = StoreStation.makeArrayMetro6();
+
 	public UI() {
 
-		String metroLine[] = {"호선","3호선","6호선"};
-		Vector<String> stationSE = new Vector<String>();
 		stationSE.add("방향");
 
-		String metro3[] = StoreStation.makeArrayMetro3();
-		String metro6[] = StoreStation.makeArrayMetro6();
-
-		Container contentPane = getContentPane();
 		contentPane.setLayout(null);
 
 		contentPane.setBackground(Color.ORANGE);
 
-		JComboBox<String> linenum = new JComboBox<String>(metroLine); //호선 선택
 		linenum.setBounds(50, 50, 70, 30);
 		contentPane.add(linenum);
 
@@ -119,111 +126,127 @@ class UI extends JFrame{
 
 				);
 
-		JLabel stname = new JLabel();
 		stname.setText("역:");
 		stname.setBounds(140, 50, 30, 30);
 		contentPane.add(stname);
 
-		JTextField tf = new JTextField(10); //역 이름 입력
 		tf.setBounds(170, 50, 120, 30);
 		contentPane.add(tf);
 
-		JComboBox<String> mtdirection = new JComboBox<String>(stationSE);
-		//JComboBox<String> mtdirection = new JComboBox<String>(metroDirection);
 		mtdirection.setBounds(320, 50, 130, 30);
 		contentPane.add(mtdirection);
 
-		JButton okay= new JButton();
 		okay.setText("입력");
 		okay.setBounds(190, 100, 70, 30);
 		contentPane.add(okay);
 
-		JLabel result = new JLabel();
 		result.setText("정보를 입력해주세요.");
 		result.setBounds(175, 170, 170, 30);
 		contentPane.add(result);
+
+		tf.addKeyListener(new KeyListener() {
+
+			public void keyPressed(KeyEvent e) {
+
+				if(e.getKeyCode()==e.VK_ENTER) {
+					selectedLine = linenum.getSelectedIndex();
+					selectedDirection = mtdirection.getSelectedIndex();
+					enteredStation = tf.getText();
+
+					findStation();
+				}
+			}
+			public void keyReleased(KeyEvent e) {}
+			public void keyTyped(KeyEvent e) {}
+		});
 
 		okay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JButton b = (JButton)e.getSource();
 				if(b.getText().equals("입력")) {
-
 					selectedLine = linenum.getSelectedIndex();
 					selectedDirection = mtdirection.getSelectedIndex();
 					enteredStation = tf.getText();
 
-					if(selectedLine == 1) {	//3호선
-						int num = Search.searchClosest(enteredStation, selectedDirection, metro3, toiletinst3);
-						int cor = Input.correctInput(enteredStation, selectedDirection, metro3, toiletinst3);
-						if(cor==1) {
-							if(num!=1220 && num<100 && num >=0) {
-								if(Examine.rightLS(metro3, enteredStation)==1) {
-									result.setText(metro3[num]);
-									result.setBounds(215, 170, 150, 30);
-									contentPane.add(result);
-									//System.out.println(result);
-								}
-							}
-							else if(num < 0 && num >= -100) {
-								result.setText("집으로 Run...");
-								result.setBounds(175, 170, 150, 30);
-								contentPane.add(result);
-							}
-							else if(num >= 100 && num < 200) {
-								result.setText("집으로 Run...");
-								result.setBounds(175, 170, 150, 30);
-								contentPane.add(result);
-							}
-						}
-						else {
-							result.setText("입력을 확인해주세요.");
-							result.setBounds(175, 170, 150, 30);
-							contentPane.add(result);
-						}
-					}
-				
-				else if(selectedLine == 2) {	//6호선 
-					int num = Search.searchClosest(enteredStation, selectedDirection, metro6, toiletinst6);
-					int cor = Input.correctInput(enteredStation, selectedDirection, metro6, toiletinst6);
-					if(cor==1) {
-						if(num!=1220 && num<100 && num>=0) {
-							if(Examine.rightLS(metro6, enteredStation)==1) {
-								result.setText(metro6[num]);
-								result.setBounds(175, 170, 150, 30);
-								contentPane.add(result);
-							}
-						}
-						else if(num < 0 && num >= -100) {
-							result.setText("집으로 Run...");
-							result.setBounds(175, 170, 150, 30);
-							contentPane.add(result);
-						}
-						else if(num >= 100 && num < 200) {
-							result.setText("집으로 Run...");
-							result.setBounds(175, 170, 150, 30);
-							contentPane.add(result);
-						}
-					}
-					else {
-						result.setText("입력을 확인해주세요.");
-						result.setBounds(175, 170, 150, 30);
-						contentPane.add(result);
-
-					}
-				}
+					findStation();
 				}
 
-		}
-	});		
+			}
+		});		
 
 		setTitle("Toilet in Station");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		setSize(500, 300);
 		setVisible(true);	
+	}
 
+	void findStation() {
+		selectedLine = linenum.getSelectedIndex();
+		selectedDirection = mtdirection.getSelectedIndex();
+		enteredStation = tf.getText();
+
+		if(selectedLine == 1) {	//3호선
+			int num = Search.searchClosest(enteredStation, selectedDirection, metro3, toiletinst3);
+			int cor = Input.correctInput(enteredStation, selectedDirection, metro3, toiletinst3);
+			if(cor==1) {
+				if(num!=1220 && num<100 && num >=0) {
+					if(Examine.rightLS(metro3, enteredStation)==1) {
+						result.setText(metro3[num]);
+						result.setBounds(215, 170, 150, 30);
+						contentPane.add(result);
+					}
+				}
+				else if(num < 0 && num >= -100) {
+					result.setText("집으로 Run...");
+					result.setBounds(175, 170, 150, 30);
+					contentPane.add(result);
+				}
+				else if(num >= 100 && num < 200) {
+					result.setText("집으로 Run...");
+					result.setBounds(175, 170, 150, 30);
+					contentPane.add(result);
+				}
+			}
+			else {
+				result.setText("입력을 확인해주세요.");
+				result.setBounds(175, 170, 150, 30);
+				contentPane.add(result);
+			}
+		}
+
+		else if(selectedLine == 2) {	//6호선 
+			int num = Search.searchClosest(enteredStation, selectedDirection, metro6, toiletinst6);
+			int cor = Input.correctInput(enteredStation, selectedDirection, metro6, toiletinst6);
+			if(cor==1) {
+				if(num!=1220 && num<100 && num>=0) {
+					if(Examine.rightLS(metro6, enteredStation)==1) {
+						result.setText(metro6[num]);
+						result.setBounds(175, 170, 150, 30);
+						contentPane.add(result);
+					}
+				}
+				else if(num < 0 && num >= -100) {
+					result.setText("집으로 Run...");
+					result.setBounds(175, 170, 150, 30);
+					contentPane.add(result);
+				}
+				else if(num >= 100 && num < 200) {
+					result.setText("집으로 Run...");
+					result.setBounds(175, 170, 150, 30);
+					contentPane.add(result);
+				}
+			}
+			else {
+				result.setText("입력을 확인해주세요.");
+				result.setBounds(175, 170, 150, 30);
+				contentPane.add(result);
+
+			}
+		}
+	}
 }
-}
+
 class Input{	
 	static int correctInput(String station, int selectedDirection, String [] metro, int [] toiletinst) {
 		int cnt = 0;
@@ -238,7 +261,6 @@ class Input{
 			return 0;
 	}
 }
-
 
 class Search{	//*************방향에 화장실이 없을 경우도 고려해서 만들어야함!**************
 	static int searchClosest(String station, int selectedDirection, String [] metro, int [] toiletinst) {
