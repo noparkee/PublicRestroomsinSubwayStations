@@ -37,7 +37,7 @@ class StoreStation {	//메모장에 있는 역들을 배열에 저장
 	}
 
 	static String[] makeArrayMetro6() {
-		String metro6[] = new String[39];
+		String metro6[] = new String[38];
 		File fileL6 = new File("metro6.txt");
 		try {
 			Scanner mt6 = new Scanner(fileL6);
@@ -55,7 +55,7 @@ class StoreStation {	//메모장에 있는 역들을 배열에 저장
 
 class UI extends JFrame{
 	static int toiletinst3[] = {5, 11, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 27, 28, 31, 32, 35, 37, 40, 41, 42};		//3호선에서 개찰구 내의 화장실이 있는 역의 인덱스 값
-	static int toiletinst6[] = {9, 10, 22, 28, 29, 30, 31, 35};															//6호선에서 개찰구 내의 화장실이 있는 역의 인덱스 값
+	static int toiletinst6[] = {8, 9, 21, 27, 28, 29, 30, 34};															//6호선에서 개찰구 내의 화장실이 있는 역의 인덱스 값
 
 	String enteredStation;		//JTextField에 입력한 내용
 	int selectedLine;			//선택한 호선 인덱스 값으로 1이면 3호선, 2이면 6호선을 의미
@@ -106,13 +106,13 @@ class UI extends JFrame{
 					break;
 				case 2:
 					if(stationSE.size()==1) {
-						stationSE.add(1, metro6[0] + "행");
+						stationSE.add(1, "응암순환행");
 						stationSE.add(2, metro6[metro6.length-1] + "행");
 					}
 					else {
 						stationSE.removeAllElements();
 						stationSE.add(0,  "방향");
-						stationSE.add(1, metro6[0] + "행");
+						stationSE.add(1, "응암순환행");
 						stationSE.add(2, metro6[metro6.length-1] + "행");
 					}
 					break;
@@ -198,12 +198,12 @@ class UI extends JFrame{
 				}
 				else if(num < 0 && num >= -100) {
 					result.setText("집으로 Run...");
-					result.setBounds(175, 170, 150, 30);
+					result.setBounds(195, 170, 150, 30);
 					contentPane.add(result);
 				}
 				else if(num >= 100 && num < 200) {
 					result.setText("집으로 Run...");
-					result.setBounds(175, 170, 150, 30);
+					result.setBounds(195, 170, 150, 30);
 					contentPane.add(result);
 				}
 			}
@@ -218,29 +218,91 @@ class UI extends JFrame{
 			int num = Search.searchClosest(enteredStation, selectedDirection, metro6, toiletinst6);
 			int cor = Input.correctInput(enteredStation, selectedDirection, metro6, toiletinst6);
 			if(cor==1) {
-				if(num!=1220 && num<100 && num>=0) {
-					if(Examine.rightLS(metro6, enteredStation)==1) {
-						result.setText(metro6[num]);
-						result.setBounds(215, 170, 150, 30);
+				if (enteredStation.equals("역촌") || enteredStation.equals("불광") || enteredStation.equals("독바위") || enteredStation.equals("연신내") || enteredStation.equals("구산")) {
+					if(selectedDirection == 2) {
+						if(num!=1220 && num<100 && num>=0) {
+							if(Examine.rightLS(metro6, enteredStation)==1) {
+								result.setText(metro6[num]);
+								result.setBounds(215, 170, 150, 30);
+								contentPane.add(result);
+							}
+						}
+						else if(num < 0 && num >= -100) {
+							result.setText("집으로 Run...");
+							result.setBounds(195, 170, 150, 30);
+							contentPane.add(result);
+						}
+						else if(num >= 100 && num < 200) {
+							result.setText("집으로 Run...");
+							result.setBounds(195, 170, 150, 30);
+							contentPane.add(result);
+						}
+						else {
+							result.setText("입력을 확인해주세요.");
+							result.setBounds(175, 170, 150, 30);
+							contentPane.add(result);
+						}
+					}
+					else {
+						result.setText("입력을 확인해주세요.");
+						result.setBounds(175, 170, 150, 30);
 						contentPane.add(result);
 					}
 				}
-				else if(num < 0 && num >= -100) {
-					result.setText("집으로 Run...");
-					result.setBounds(175, 170, 150, 30);
-					contentPane.add(result);
+				else if(enteredStation.equals("응암") || enteredStation.equals("새절") || enteredStation.equals("증산")) {
+					num = Search.searchClosest(enteredStation,2, metro6, toiletinst6);
+					if(num!=1220 && num<100 && num>=0) {
+						if(Examine.rightLS(metro6, enteredStation)==1) {
+							result.setText(metro6[num]);
+							result.setBounds(215, 170, 150, 30);
+							contentPane.add(result);
+						}
+					}
+					else if(num < 0 && num >= -100) {
+						result.setText("집으로 Run...");
+						result.setBounds(195, 170, 150, 30);
+						contentPane.add(result);
+					}
+					else if(num >= 100 && num < 200) {
+						result.setText("집으로 Run...");
+						result.setBounds(195, 170, 150, 30);
+						contentPane.add(result);
+					}
+					else {
+						result.setText("입력을 확인해주세요.");
+						result.setBounds(175, 170, 150, 30);
+						contentPane.add(result);
+					}
 				}
-				else if(num >= 100 && num < 200) {
-					result.setText("집으로 Run...");
-					result.setBounds(175, 170, 150, 30);
-					contentPane.add(result);
+				else {
+					if(num!=1220 && num<100 && num>=0) {
+						if(Examine.rightLS(metro6, enteredStation)==1) {
+							result.setText(metro6[num]);
+							result.setBounds(215, 170, 150, 30);
+							contentPane.add(result);
+						}
+					}
+					else if(num < 0 && num >= -100) {
+						result.setText("집으로 Run...");
+						result.setBounds(195, 170, 150, 30);
+						contentPane.add(result);
+					}
+					else if(num >= 100 && num < 200) {
+						result.setText("집으로 Run...");
+						result.setBounds(195, 170, 150, 30);
+						contentPane.add(result);
+					}
+					else {
+						result.setText("입력을 확인해주세요.");
+						result.setBounds(175, 170, 150, 30);
+						contentPane.add(result);
+					}
 				}
 			}
 			else {
 				result.setText("입력을 확인해주세요.");
 				result.setBounds(175, 170, 150, 30);
 				contentPane.add(result);
-
 			}
 		}
 	}
