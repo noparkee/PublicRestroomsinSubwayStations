@@ -63,12 +63,11 @@ class UI extends JFrame{
 
 	String metroLine[] = {"호선","3호선","6호선"};
 	Vector<String> stationSE = new Vector<String>();
-
+	
 	Container contentPane = getContentPane();
 	JComboBox<String> linenum = new JComboBox<String>(metroLine);
 	JLabel stname = new JLabel();
 	JTextField tf = new JTextField(10); //역 이름 입력
-	JComboBox<String> mtdirection = new JComboBox<String>(stationSE);
 	JButton okay= new JButton();
 	JLabel result = new JLabel();
 
@@ -77,7 +76,8 @@ class UI extends JFrame{
 
 	public UI() {
 
-		stationSE.add("방향");
+		stationSE.add(0, "방향");
+		JComboBox<String> mtdirection = new JComboBox<String>(stationSE);
 
 		contentPane.setLayout(null);
 
@@ -182,11 +182,7 @@ class UI extends JFrame{
 	}
 
 	void findStation() {
-		selectedLine = linenum.getSelectedIndex();
-		selectedDirection = mtdirection.getSelectedIndex();
-		enteredStation = tf.getText();
-
-		if(selectedLine == 1) {	//3호선
+			if(selectedLine == 1) {	//3호선
 			int num = Search.searchClosest(enteredStation, selectedDirection, metro3, toiletinst3);
 			int cor = Input.correctInput(enteredStation, selectedDirection, metro3, toiletinst3);
 			if(cor==1) {
@@ -222,7 +218,7 @@ class UI extends JFrame{
 				if(num!=1220 && num<100 && num>=0) {
 					if(Examine.rightLS(metro6, enteredStation)==1) {
 						result.setText(metro6[num]);
-						result.setBounds(175, 170, 150, 30);
+						result.setBounds(215, 170, 150, 30);
 						contentPane.add(result);
 					}
 				}
