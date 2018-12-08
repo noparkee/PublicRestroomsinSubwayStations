@@ -5,10 +5,10 @@ import java.awt.event.*;
 import javax.swing.*;
 
 class Examine{
-	public static int rightLS(String [] metro, String eneterdStation) {
+	public static int rightLS(String [] metro, String eneterdStation) {	
+		//입력한 역과 선택한 호선이 매치가 되는지 확인하는 매서드
 		int cnt = 0;
 		for(int i =0 ; i<metro.length; i++) {
-			// 호선과 역이 맞게 입력되었는지.
 			if(metro[i].equals(eneterdStation))
 				cnt ++;
 		}
@@ -19,7 +19,7 @@ class Examine{
 	}
 }
 
-class StoreStation {
+class StoreStation {	//메모장에 있는 역들을 배열에 저장
 	static String[] makeArrayMetro3() {
 		String metro3[] = new String[43];
 		File fileL3 = new File("metro3.txt");
@@ -54,30 +54,30 @@ class StoreStation {
 }
 
 class UI extends JFrame{
-	static int toiletinst3[] = {5, 11, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 27, 28, 31, 32, 35, 37, 40, 41, 42}; 
-	static int toiletinst6[] = {9, 10, 22, 28, 29, 30, 31, 35};
+	static int toiletinst3[] = {5, 11, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 27, 28, 31, 32, 35, 37, 40, 41, 42};		//3호선에서 개찰구 내의 화장실이 있는 역의 인덱스 값
+	static int toiletinst6[] = {9, 10, 22, 28, 29, 30, 31, 35};															//6호선에서 개찰구 내의 화장실이 있는 역의 인덱스 값
 
-	String enteredStation;
-	int selectedLine;
-	int selectedDirection;
+	String enteredStation;		//JTextField에 입력한 내용
+	int selectedLine;			//선택한 호선 인덱스 값으로 1이면 3호선, 2이면 6호선을 의미
+	int selectedDirection;		//선택한 방향
 
-	String metroLine[] = {"호선","3호선","6호선"};
-	Vector<String> stationSE = new Vector<String>();
-	
+	String metroLine[] = {"호선","3호선","6호선"};				//호선 종류
+	Vector<String> stationSE = new Vector<String>();		//방향 종류
+
 	Container contentPane = getContentPane();
-	JComboBox<String> linenum = new JComboBox<String>(metroLine);
-	JLabel stname = new JLabel();
-	JTextField tf = new JTextField(10); //역 이름 입력
-	JButton okay= new JButton();
-	JLabel result = new JLabel();
+	JComboBox<String> linenum = new JComboBox<String>(metroLine);		//배열 metroLine을 리스트로 하는 JCombobox 생성
+	JLabel stname = new JLabel();		//'역' 이라는 문자 출력
+	JTextField tf = new JTextField(10); //역 이름을 입력하는 JTextField
+	JButton okay= new JButton();		//입력 버튼
+	JLabel result = new JLabel();		//결과 출력
 
 	String metro3[] = StoreStation.makeArrayMetro3();
 	String metro6[] = StoreStation.makeArrayMetro6();
 
 	public UI() {
 
-		stationSE.add(0, "방향");
-		JComboBox<String> mtdirection = new JComboBox<String>(stationSE);
+		stationSE.add(0, "방향");	
+		JComboBox<String> mtdirection = new JComboBox<String>(stationSE);	//벡터 stationSE를 리스트로 하는 JComboBox 생성
 
 		contentPane.setLayout(null);
 
@@ -86,7 +86,7 @@ class UI extends JFrame{
 		linenum.setBounds(50, 50, 70, 30);
 		contentPane.add(linenum);
 
-		linenum.addActionListener(new ActionListener() {
+		linenum.addActionListener(new ActionListener() {	//호선을 선택했을 때 벡터에 양 끝의 종착역을 추가
 			public void actionPerformed(ActionEvent e) {
 				JComboBox<String> sl = (JComboBox<String>)e.getSource();
 				int num = sl.getSelectedIndex();
@@ -144,7 +144,7 @@ class UI extends JFrame{
 		result.setBounds(175, 170, 170, 30);
 		contentPane.add(result);
 
-		tf.addKeyListener(new KeyListener() {
+		tf.addKeyListener(new KeyListener() {	//JTextField에서 엔터기를 누르면 개찰구 내에 화장실이 있는 가장 가까운 역을 찾는 연산 실행
 
 			public void keyPressed(KeyEvent e) {
 
@@ -160,7 +160,7 @@ class UI extends JFrame{
 			public void keyTyped(KeyEvent e) {}
 		});
 
-		okay.addActionListener(new ActionListener() {
+		okay.addActionListener(new ActionListener() {	//입력 버튼을 누르면 개찰구 내에 화장실이 있는 가장 가까운 역을 찾는 연산 실행
 			public void actionPerformed(ActionEvent e) {
 				JButton b = (JButton)e.getSource();
 				if(b.getText().equals("입력")) {
@@ -181,8 +181,11 @@ class UI extends JFrame{
 		setVisible(true);	
 	}
 
-	void findStation() {
-			if(selectedLine == 1) {	//3호선
+	void findStation() {	
+		//개찰구내에 화장실이 있는 가장 가까운 역을 출력하는 매서드
+		//있다면 그 역이 출력, 선택한 방향에 개찰구내에 화장실이 없는 경우 "집으로 Run..."이 출력
+
+		if(selectedLine == 1) {		//3호선
 			int num = Search.searchClosest(enteredStation, selectedDirection, metro3, toiletinst3);
 			int cor = Input.correctInput(enteredStation, selectedDirection, metro3, toiletinst3);
 			if(cor==1) {
@@ -258,13 +261,15 @@ class Input{
 	}
 }
 
-class Search{	//*************방향에 화장실이 없을 경우도 고려해서 만들어야함!**************
+class Search{
 	static int searchClosest(String station, int selectedDirection, String [] metro, int [] toiletinst) {
+		//개찰구 내에 화장실이 있는 가장 가까운 역을 계산하는 매서드
+		//입력한 역의 값을 n이라고 지정하고 n과 인덱스 값의 차이가 가장 작은 역을 출력
 		int n=0;
 		int min = 100;
 		int cnt = 0;
 
-		if(selectedDirection == 1) {	//상행선
+		if(selectedDirection == 1) {	//상행선(인덱스의 값이 작은 방향)
 			for(int i =0; i<metro.length; i++) {
 				if(metro[i].equals(station)) {
 					n = i;
@@ -285,7 +290,7 @@ class Search{	//*************방향에 화장실이 없을 경우도 고려해�
 			return n-min;
 		}
 
-		else if(selectedDirection == 2) {	//하행선
+		else if(selectedDirection == 2) {	//하행선(인텍스의 값이 큰 방향)
 			for(int i =0; i<metro.length; i++) {
 				if(metro[i].equals(station)) {
 					n = i;
@@ -312,9 +317,6 @@ class Search{	//*************방향에 화장실이 없을 경우도 고려해�
 }
 
 public class MetroToiletMain{
-
-	static int toiletinst3[] = {5, 11, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 27, 28, 31, 32, 35, 37, 40, 41, 42}; 
-	static int toiletinst6[] = {9, 10, 22, 28, 29, 30, 31, 35};
 
 	public static void main(String[] args) {
 
