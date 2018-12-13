@@ -308,7 +308,7 @@ class UI extends JFrame{
 	}
 }
 
-class Input{	
+/*class Input{	
 	static int correctInput(String station, int selectedDirection, String [] metro, int [] toiletinst) {
 		int cnt = 0;
 
@@ -321,7 +321,7 @@ class Input{
 		else
 			return 0;
 	}
-}
+}*/
 
 class Search{
 	static int searchClosest(String station, int selectedDirection, String [] metro, int [] toiletinst) {
