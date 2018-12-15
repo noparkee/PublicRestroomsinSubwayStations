@@ -1,17 +1,25 @@
-PublicRestroomsinSubwayStations
+# PublicRestroomsinSubwayStations
 This project prints out the nearest station where the restroom is located within the turnstile gate, depending on the station and direction you choose.
-Purpose
+
+
+## Purpose
+
 When you were on the subway,
 
-when the distance to the destination is quite long
-when you don't know the geography around you
+* when the distance to the destination is quite long
+* when you don't know the geography around you
+
 You can't wait to go to the bathroom,
 
-When you don't want to get off at any station and be in a crowded situation,
-When you don't want to pay for transportation twice,
+* When you don't want to get off at any station and be in a crowded situation,
+* When you don't want to pay for transportation twice,
+
 This program was designed to get to the bathroom as quickly as possible without paying for transportation again in a less crowded environment.
 
-Code
+
+## Code
+
+```java
 class Examine{
 	public static int rightLS(String [] metro, String eneterdStation) {	
 		int cnt = 0;
@@ -39,8 +47,11 @@ class Examine{
 			return 0;
 	}
 }
-▲Ensure the station matches the line correctly
+```
 
+>▲Ensure the station matches the line correctly
+
+```java
 class StoreStation {	//메모장에 있는 역들을 배열에 저장
 	static String[] makeArrayMetro3() {
 		String metro3[] = new String[43];
@@ -73,8 +84,11 @@ class StoreStation {	//메모장에 있는 역들을 배열에 저장
 		return metro6;
 	}
 }
-▲Store subway stations stored in txt files in an arraies.
+```
 
+>▲Store subway stations stored in txt files in an arraies.
+
+```java
 class Search{
 	static int searchClosest(String station, int selectedDirection, String [] metro, int [] toiletinst) {
 		//개찰구 내에 화장실이 있는 가장 가까운 역을 계산하는 매서드
@@ -126,8 +140,11 @@ class Search{
 			return 1220;
 	}
 }
-▲Calculate the nearest station where the restroom is located within the turnstile gate.
+```
 
+>▲Calculate the nearest station where the restroom is located within the turnstile gate.
+
+```java
 void findStation() {	
 		//개찰구내에 화장실이 있는 가장 가까운 역을 출력하는 매서드
 		//있다면 그 역이 출력, 선택한 방향에 개찰구내에 화장실이 없는 경우 "집으로 Run..."이 출력
@@ -251,30 +268,33 @@ void findStation() {
 			}
 		}
 	}
-▲Prints out the nearest station where the restroom is located within the turnstile gate.
+```
+  
+>▲Prints out the nearest station where the restroom is located within the turnstile gate.
 
-How to use
-Select the line of the subway you are currently on.
-Selec the direction you want.
-Enter the name of the station on which you are riding to match the selected line.
-Press the Enter button or "입력" button.
-*The order of 2 and 3 is irrelevant.
+## How to use
 
-Execution screen
+1. Select the line of the subway you are currently on.
+2. Selec the direction you want.
+3. Enter the name of the station on which you are riding to match the selected line.
+4. Press the Enter button or "입력" button.
+* The order of 2 and 3 is irrelevant.
 
+## Execution screen
+![1](https://user-images.githubusercontent.com/44026481/50042949-15692580-00af-11e9-883e-ede70776c5c3.PNG)
+>Initial Screen
 
-Initial Screen
+![3](https://user-images.githubusercontent.com/44026481/50042980-cec7fb00-00af-11e9-8d2d-1fef06433697.PNG)
+>Wrong input:
+>This program prints out "입력을 확인해주세요."
 
+![4](https://user-images.githubusercontent.com/44026481/50042988-ebfcc980-00af-11e9-9dd3-4d8a00bb60fb.PNG)
+>Right input:
+>This program prints out the nearest station where the restroom is located within the turnstile gate.
 
-Wrong input:
-This program prints out "입력을 확인해주세요."
-
-
-Right input:
-This program prints out the nearest station where the restroom is located within the turnstile gate.
-Execution video
+## Execution video
 https://youtu.be/UeQ4PdC83Ks
 
-Limit
+## Limit
 This project only considered lines 3 and 6.
 This project did not consider transfer to another line.
