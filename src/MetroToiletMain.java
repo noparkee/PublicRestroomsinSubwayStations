@@ -308,10 +308,9 @@ class UI extends JFrame{
 	}
 }
 
-/*class Input{	
+class Input{	
 	static int correctInput(String station, int selectedDirection, String [] metro, int [] toiletinst) {
 		int cnt = 0;
-
 		for(int i = 0; i<metro.length; i++) {
 			if(station.equals(metro[i]))
 				cnt++;
@@ -321,7 +320,7 @@ class UI extends JFrame{
 		else
 			return 0;
 	}
-}*/
+}
 
 class Search{
 	static int searchClosest(String station, int selectedDirection, String [] metro, int [] toiletinst) {
