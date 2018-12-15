@@ -296,5 +296,5 @@ void findStation() {
 https://youtu.be/UeQ4PdC83Ks
 
 ## Limit
-This project only considered lines 3 and 6.
-This project did not consider transfer to another line.
+* This project only considered lines 3 and 6.
+* This project did not consider transfer to another line.
